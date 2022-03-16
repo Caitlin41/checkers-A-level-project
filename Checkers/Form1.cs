@@ -8,8 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-// Testing commits
-
 namespace Checkers
 {
     public partial class Form1 : Form
