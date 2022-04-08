@@ -50,11 +50,11 @@ namespace Checkers
                 {
                     if((i + j) % 2 == 0)
                     {
-                        if (j == 0 || j == 1)
+                        if (j == 0 || j == 1 || j == 2)
                         {
                             backend[i, j] = 'r';
                         }
-                        else if (j == 6 || j == 7)
+                        else if (j == 5 || j == 6 || j == 7)
                         {
                             backend[i, j] = 'b';
                         }
@@ -74,12 +74,12 @@ namespace Checkers
                 {
                     if (backend[i, j] == 'r')
                     {
-                        grid[i, j].Image = cropImage(Image.FromFile("Sprite.jpg"), new Rectangle(175, 10, 175, 175));
+                        grid[i, j].Image = cropImage(Image.FromFile("Sprite-NoBG.png"), new Rectangle(175, 10, 175, 175));
                         grid[i, j].SizeMode = PictureBoxSizeMode.StretchImage;
                     }
                     if (backend[i, j] == 'b')
                     {
-                        grid[i, j].Image = cropImage(Image.FromFile("Sprite.jpg"), new Rectangle(15, 185, 165, 160));
+                        grid[i, j].Image = cropImage(Image.FromFile("Sprite-NoBG.png"), new Rectangle(15, 185, 165, 160));
                         grid[i, j].SizeMode = PictureBoxSizeMode.StretchImage;
                     }
                 }
@@ -107,6 +107,14 @@ namespace Checkers
                     grid[i, j].Height = 50;
                     grid[i, j].Location = new Point(i * 50, j * 50);
                     grid[i, j].BorderStyle = BorderStyle.Fixed3D;
+                    if ((i + j) % 2 == 0)
+                    {
+                        grid[i, j].BackColor = Color.Black;
+                    }
+                    else
+                    {
+                        grid[i, j].BackColor = Color.AntiqueWhite;
+                    }
                     grid[i, j].Click += ClickTile;
                 }
             }
@@ -118,12 +126,27 @@ namespace Checkers
             int j = s.Location.Y / 50;
             if (grid[i, j].Image != null) //Checks if square has counter
             {
-                //Removes image of counter if the counter image is present
-                grid[i, j].Image = null;
+                grid[i, j].BackColor = Color.Yellow;
+                if (/*grid[i, j] != grid[7, 5] ||*/ grid[i + 1, j - 1].Image == null)
+                {
+                    grid[i + 1, j - 1].BackColor = Color.Yellow;
+                }
+                if (/*grid[i, j] != grid[0, 5] ||*/ grid[i - 1, j - 1].Image == null)
+                {
+                    grid[i - 1, j - 1].BackColor = Color.Yellow;
+                }
+                if (grid[i + 1, j + 1].Image == null)
+                {
+                    grid[i + 1, j + 1].BackColor = Color.Yellow;
+                }
+                if (grid[i - 1, j + 1].Image == null)
+                {
+                    grid[i - 1, j + 1].BackColor = Color.Yellow;
+                }
             }
             else
             {
-                grid[i, j].BackColor = Color.Black;
+                //grid[i, j].BackColor = Color.Black;
             }
         }
         public PictureBox[,] GetPictureBoxGrid()
